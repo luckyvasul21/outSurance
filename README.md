@@ -1,5 +1,7 @@
 Attached 2 projects:
 
+OS: Windows
+
 python: pytest, playwright
 	TestFile: ..\OutsurancePython\tests\test_loginpage.py
 Dotnet: xunit, playwright
@@ -10,12 +12,18 @@ Dotnet: xunit, playwright
 Python pre-requisites
 	install python (used version: 3.10.0)
 	check in cli (by using command <python --version>)
+	in project Folder (OutsurancePython)
+		CLI commands:
+			python -m pip install --user virtualenv (Create virtual env to run tests)
+			python -m venv env
+			.\env\Scripts\activate
+			where python
 Python Steps:
 1. Unzip OutsurancePython folder
 2. cd OutsurancePython
 3. pip install -r requirements.txt ( install all libraries required for project like playwright, pytest)
 3. playwright install (will install browsers drivers)
-4. python -m pytest tests --browser-channel chrome --headed --slowmo 2000 (CLI)
+4. python -m pytest tests --browser-channel chrome --headed --slowmo 1000 (CLI)
      <pytests tests> => will read the project for tests
      <--browser-channel chrome> specific browser to run tests
      <--headed> to run tests in head mode
