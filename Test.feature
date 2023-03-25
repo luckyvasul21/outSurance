@@ -17,7 +17,7 @@ Feature: DemoWebShop Test Feature
       | random.toString() | random.toString() | random.toString()@random.toString().com | random.toString() | random.toString() |
       |                   | random.toString() | random.toString()@random.toString().com | random.toString() | random.toString() |
 	  
-	Test in DotNet (test function => VerifyLoggedInUser
+	Test in DotNet (test function => VerifyLoggedInUser)
 	Test in Python (test function => test_login)
 	Scenario Outline: Verify non-registered user cannot login
     Given I am on login page

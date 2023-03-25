@@ -3,3 +3,6 @@
 bin/
 obj/
 Debug/
+
+venv/
+__pycache__/
