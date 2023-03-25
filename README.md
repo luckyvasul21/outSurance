@@ -6,6 +6,8 @@ python: pytest, playwright
 	TestFile: ..\OutsurancePython\tests\test_loginpage.py
 Dotnet: xunit, playwright
 	TestFile: ..\outSurance\playwright-xunit\PrimeService.Tests\login_test.cs
+	
+Test Scenarios -> .\Test.feature
 
 
 
