@@ -76,3 +76,21 @@ Feature: DemoWebShop Test Feature
       | category             |
       | Books                |
       | Computers -> Desktop |
+
+  Scenario Outline: Verify different Payment Methods with Corrects payments details 
+    Given User is logged in with correct credentials
+    When  User selected <> item(s) into Shopping Cart
+    And user navigates t0 shaopping cart page
+    Then verify <> items added matches to shopping cart list
+    And Check Agree Terms
+    And Click Checkout
+    And Enter Billing Address
+    And Click Continue
+    And Select Payment method <>
+    And Click Continue
+    Then verify payment information
+    And Click Continue
+    Then Verify Confirm order
+    |Billing Address| Paymet method| Products|
+    Then Verify Order is Processed with status 'Your order has been successfully processed!'
+    
