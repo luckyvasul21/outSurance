@@ -8,7 +8,7 @@ using Outsource.Tests.Pages;
 
 namespace Prime.UnitTests.Services
 {
-    public class Login_test
+    public class Login_test : IDisposable
     {
         private readonly Driver _driver;
         private readonly LoginPage _loginPage;
@@ -87,6 +87,11 @@ namespace Prime.UnitTests.Services
             {
                 Assert.Equal(itemBoxes, addToCartbuttons);
             }
+        }
+
+        public void Dispose()
+        {
+            _driver.Dispose();
         }
     }
 }
