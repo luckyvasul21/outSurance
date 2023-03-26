@@ -7,3 +7,6 @@ Debug/
 venv/
 __pycache__/
 .idea/
+
+*.TMP
+*.hzv*

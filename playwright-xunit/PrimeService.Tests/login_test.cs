@@ -2,56 +2,44 @@ using Xunit;
 using Microsoft.Playwright;
 using System.Threading.Tasks;
 using System;
-using Xunit.Abstractions;
-using System.Text;
 using FluentAssertions.Execution;
+using Outsource.Tests.Drivers;
+using Outsource.Tests.Pages;
 
 namespace Prime.UnitTests.Services
 {
-    public class login_test
+    public class Login_test
     {
+        private readonly Driver _driver;
+        private readonly LoginPage _loginPage;
 
-        private readonly ITestOutputHelper testOutputHelper;
-
-        public login_test(ITestOutputHelper testOutputHelper)
+        //Driver _driver;
+        public Login_test()
         {
-            this.testOutputHelper = testOutputHelper;
+            _driver = new Driver();
+            _loginPage = new LoginPage(_driver.Page);
         }
 
         [Theory]
         [InlineData("jedaj85013@necktai.com", "jedaj85013password", 302)]
         [InlineData("test@test.com", "testpassword", 200)]
-        public async Task postdatatest(String username, String password, int statusCode)
+        public async Task Postdatatest(String username, String password, int statusCode)
         {
-            using var playwright = await Playwright.CreateAsync();
-            var chrome = playwright.Chromium;
-            var browser = await chrome.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
-            var page = await browser.NewPageAsync();
+            await  _driver.Page.GotoAsync("https://demowebshop.tricentis.com/");
 
+            await _loginPage.ClickLogin();
 
-            await page.GotoAsync("https://demowebshop.tricentis.com/");
-
-
-            await page.Locator(".header-links a[href]").GetByText("Log in").ClickAsync();
-
-            var formLocator = page.Locator("form[action = '/login']");
+            var formLocator = _driver.Page.Locator("form[action = '/login']");
 
             if (await formLocator.IsVisibleAsync())
-            {
-                await page.FillAsync("input.email", username);
-                await page.FillAsync("input.password", password);
-                
+            {   
+                await _loginPage.LoginAction(username, password); 
             }
 
-            var waitForResponseTask = await page.RunAndWaitForResponseAsync(async () =>
+            var waitForResponseTask = await _driver.Page.RunAndWaitForResponseAsync(async () =>
              {
-                 await page.Locator("input.login-button").ClickAsync();
+                 await _loginPage.ClickSignIn();
              }, response => response.Url.Contains("https://demowebshop.tricentis.com/login"));
-
-            Console.WriteLine(System.Text.Encoding.UTF8);
-
-            //byte[] bytes = Encoding.Default.GetBytes(username);
-            //username = Encoding.UTF8.GetString(bytes);
 
             using (new AssertionScope())
             {
@@ -66,29 +54,21 @@ namespace Prime.UnitTests.Services
         [InlineData("test@test.vom", "testpassword", false)]
         public async Task VerifyLoggedInUser(String username, String password, Boolean isvisible)
         {
-            using var playwright = await Playwright.CreateAsync();
-            var chrome = playwright.Chromium;
-            var browser = await chrome.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
-            var page = await browser.NewPageAsync();
+            await _driver.Page.GotoAsync("https://demowebshop.tricentis.com/");
 
+            await _loginPage.ClickLogin();
 
-            await page.GotoAsync("https://demowebshop.tricentis.com/");
-
-
-            await page.Locator(".header-links a[href]").GetByText("Log in").ClickAsync();
-
-            var formLocator = page.Locator("form[action = '/login']");
+            var formLocator = _driver.Page.Locator("form[action = '/login']");
 
             if (await formLocator.IsVisibleAsync())
             {
-                await page.FillAsync("input.email", username);
-                await page.FillAsync("input.password", password);
-                await page.Locator("input.login-button").ClickAsync();
+                await _loginPage.LoginAction(username, password);
+                await _loginPage.ClickSignIn();
             }
 
-            await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            await _driver.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-            var userloggedin = await page.Locator(".header-links .account").IsVisibleAsync();
+            var userloggedin = await _driver.Page.Locator(".header-links .account").IsVisibleAsync();
 
             using (new AssertionScope())
             {
@@ -97,20 +77,13 @@ namespace Prime.UnitTests.Services
 
         }
 
-
         [Fact]
         public async Task BuyaProduct()
         {
-            using var playwright = await Playwright.CreateAsync();
-            var chrome = playwright.Chromium;
-            var browser = await chrome.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
-            var page = await browser.NewPageAsync();
+            await _driver.Page.GotoAsync("https://demowebshop.tricentis.com/books");
 
-            await page.GotoAsync("https://demowebshop.tricentis.com/books");
-
-            var itemBoxes = await page.Locator(".item-box").CountAsync();
-            var addToCartbuttons = await page.Locator(".item-box input").CountAsync();
-            
+            var itemBoxes = await _driver.Page.Locator(".item-box").CountAsync();
+            var addToCartbuttons = await _driver.Page.Locator(".item-box input").CountAsync();
 
             using (new AssertionScope())
             {
