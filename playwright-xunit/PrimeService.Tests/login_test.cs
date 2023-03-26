@@ -12,8 +12,6 @@ namespace Prime.UnitTests.Services
     {
         private readonly Driver _driver;
         private readonly LoginPage _loginPage;
-
-        //Driver _driver;
         public Login_test()
         {
             _driver = new Driver();
@@ -23,7 +21,7 @@ namespace Prime.UnitTests.Services
         [Theory]
         [InlineData("jedaj85013@necktai.com", "jedaj85013password", 302)]
         [InlineData("test@test.com", "testpassword", 200)]
-        public async Task Postdatatest(String username, String password, int statusCode)
+        public async Task Postdatatest(string username, string password, int statusCode)
         {
             await  _driver.Page.GotoAsync("https://demowebshop.tricentis.com/");
 
@@ -51,8 +49,8 @@ namespace Prime.UnitTests.Services
 
         [Theory]
         [InlineData("jedaj85013@necktai.com", "jedaj85013password", true)]
-        [InlineData("test@test.vom", "testpassword", false)]
-        public async Task VerifyLoggedInUser(String username, String password, Boolean isvisible)
+        [InlineData("test@test.com", "testpassword", false)]
+        public async Task VerifyLoggedInUser(string username, string password, bool isvisible)
         {
             await _driver.Page.GotoAsync("https://demowebshop.tricentis.com/");
 
